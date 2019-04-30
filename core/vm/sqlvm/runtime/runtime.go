@@ -14,7 +14,8 @@ func Run(stateDB vm.StateDB, ins []Instruction, registers []*Operand) (ret []byt
 				in.Input[i] = registers[in.Input[i].RegisterIndex]
 			}
 		}
-		errCode := jumpTable[in.Op](&common.Context{}, in.Input, registers, in.Output)
+		jUnit := jumpTable[in.Op]
+		errCode := jUnit.Func(&common.Context{}, in.Input, registers, in.Output)
 		if errCode != nil {
 			err = se.Error{
 				Position: in.Position,
